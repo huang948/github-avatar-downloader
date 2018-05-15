@@ -1,3 +1,12 @@
+var args = process.argv.slice(2);
+var param1 = args[0];
+var param2 = args[1];
+if (args.length !== 2) {
+  throw "Input exactly two parameters";
+}
+
+
+
 var request = require('request');
 var token = require('./secrets');
 var fs = require('fs');
@@ -19,7 +28,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
   });
 }
 
-getRepoContributors("jquery", "jquery", function(err, result) {
+getRepoContributors(param1, param2, function(err, result) {
   console.log("Errors:", err);
   for (var i = 0; i < result.length; i++) {
     console.log("avatar_url: ", result[i]['avatar_url']);
@@ -30,5 +39,8 @@ getRepoContributors("jquery", "jquery", function(err, result) {
 
 function downloadImageByURL(url, filePath) {
   request.get(url)
+  .on('error', function (err) {
+    throw err;
+  })
   .pipe(fs.createWriteStream(filePath));
 }
