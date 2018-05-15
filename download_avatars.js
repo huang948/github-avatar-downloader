@@ -5,10 +5,10 @@ if (args.length !== 2) {
   throw "Input exactly two parameters";
 }
 
+require('dotenv').config();
 
 
 var request = require('request');
-var token = require('./secrets');
 var fs = require('fs');
 
 console.log('Welcome to the GitHub Avatar Downloader!');
@@ -18,7 +18,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
     headers: {
       'User-Agent': 'request',
-      'Authorization': "token " + token.GITHUB_TOKEN
+      'Authorization': "token " + process.env.GITHUB_TOKEN
     }
   };
 
